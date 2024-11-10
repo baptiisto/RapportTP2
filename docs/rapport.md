@@ -68,3 +68,103 @@ for (p = 0; n_tot > 0; n_tot--) {
 ### Ressource critique et section critique :
 - **`n_cible`** est une ressource critique.
 - **Section critique** : `ncible += 1`.
+
+## Adapatation du code pour le rendre paralléle 
+
+### Paradigme Itérations parallèles
+
+
+    ENTRÉES :
+    n_tot : nombre total de points
+    
+    FONCTION TirerPoint()
+    xp ← valeur aléatoire entre 0 et 1
+    yp ← valeur aléatoire entre 0 et 1
+    RETOURNER (xp^2 + yp^2 < 1)
+    FIN FONCTION
+    
+    PROCÉDURE PRINCIPALE
+    ncible ← 0
+    
+        PARALLEL POUR i DE 1 À n_tot
+            SI TirerPoint() ALORS
+                INCRÉMENTER ncible
+            FIN SI
+        FIN PARALLEL POUR
+    
+        π ← 4 * ncible / n_tot
+        AFFICHER "Estimation de π : ", π 
+    FIN PROCÉDURE
+
+### Explications :
+
+Tirer un point :
+
+Tirer aléatoirement un point (xp, yp) dans un carré de 1x1 et vérifier s'il est dans un quart de cercle (xp^2 + yp^2 < 1).
+Parallélisme :
+
+Les tirages sont effectués simultanément pour accélérer le calcul.
+
+Compter les points :
+
+Incrémenter un compteur ncible pour chaque point dans le quart de cercle.
+
+Estimation de π :
+
+Calculer π avec la formule π ≈ 4 * ncible / n_tot.
+
+### Paradigme Master Worker
+
+
+    ENTRÉES :
+    n_tot : nombre total de points
+    n_workers : nombre de workers
+    
+    FONCTION TirerPoint()
+    xp ← valeur aléatoire entre 0 et 1
+    yp ← valeur aléatoire entre 0 et 1
+    RETOURNER (xp^2 + yp^2 < 1)
+    FIN FONCTION
+    
+    FONCTION MonteCarloPartial(n_charge)
+    ncible_partial ← 0
+    POUR i DE 1 À n_pcharge FAIRE
+    SI TirerPoint() ALORS
+    ncible_partial ← ncible_partial + 1
+    FIN SI
+    FIN POUR
+    RETOURNER ncible_partial
+    FIN FONCTION
+    
+    PROCÉDURE PRINCIPALE
+    n_charge ← n_tot / n_workers
+    Liste ncibles ← Liste vide
+    
+        POUR chaque worker DE 1 À n_workers
+            ncible_partial ← MonteCarloPartial(n_charge)
+            AJOUTER ncible_partial à ncibles
+        FIN POUR
+    
+        ncible_total ← Somme des valeurs dans ncibles
+        π ← 4 * ncible_total / n_tot
+        AFFICHER "Estimation de π : ", π
+    FIN PROCÉDURE
+
+### Explications en pseudo-code :
+
+Chaque worker effectue une partie des calculs (calcul de ncible_partial).
+
+Workers :
+Chaque worker travaille de manière indépendante, calculant son propre ncible_partial pour un sous-ensemble des points(n_charge).
+
+Collecte des résultats :
+
+Le master collecte les résultats de chaque worker et effectue une somme des ncible_partial.
+
+Estimation de π :
+
+Le master calcule π en utilisant la formule π ≈ 4 * ncible_total / n_tot.
+
+
+
+
