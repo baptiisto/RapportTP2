@@ -167,4 +167,14 @@ Le master calcule π en utilisant la formule π ≈ 4 * ncible_total / n_tot.
 
 
 
+### TP Je sais plus 
+
+Programmation multiniveaux: On va faire qu'un code en mémoire distribuée utilise un code en mémoire paralléle.
+
+Dans worker socket, on créer une méthode qui calcule la fonction monteCarlo et puis aprés envoie le résultat au master.
+
+Dans workerSocket , au lieu d'utiliser la fonction crée , on appelle la classe Master de PI.java. Donc WorkerSocker peut utiliser des bibliothéques.
+
+
+
 

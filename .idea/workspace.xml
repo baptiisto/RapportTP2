@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo">
-      <change afterPath="$PROJECT_DIR$/src/Assignment102.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Pi.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PiMonteCarlo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MasterSocket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/WorkerSocket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/rapport.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rapport.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,18 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "baptiisto"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;baptiisto&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/baptiisto/RapportTP2.git",
-    "accountId": "a4068271-d868-4554-b321-4da673a711d1"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/baptiisto/RapportTP2.git&quot;,
+    &quot;accountId&quot;: &quot;a4068271-d868-4554-b321-4da673a711d1&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -52,12 +52,18 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Assignment102.executor": "Run",
+    "Application.MasterSocket.executor": "Run",
     "Application.Pi.executor": "Run",
+    "Application.WorkerSocket (2).executor": "Run",
+    "Application.WorkerSocket (3).executor": "Run",
+    "Application.WorkerSocket (4).executor": "Run",
+    "Application.WorkerSocket (5).executor": "Run",
+    "Application.WorkerSocket.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/22205554/IdeaProjects/RapportTP2/src",
+    "last_opened_file_path": "C:/Users/bapti/IdeaProjects/RapportTP3/src",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -69,6 +75,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\bapti\IdeaProjects\RapportTP3\src" />
       <recent name="C:\Users\22205554\IdeaProjects\RapportTP2\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -83,17 +90,138 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WorkerSocket (2)" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25546" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket (4)" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25546" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="22456" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25546" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25546" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25546" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WorkerSocket" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+      <module name="RapportTP2" />
+      <option name="PROGRAM_PARAMETERS" value="25545" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.WorkerSocket (4)" />
+      <item itemvalue="Application.WorkerSocket (2)" />
+      <item itemvalue="Application.WorkerSocket (3)" />
+      <item itemvalue="Application.Assignment102" />
+      <item itemvalue="Application.WorkerSocket" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Assignment102" />
+        <item itemvalue="Application.WorkerSocket" />
+        <item itemvalue="Application.WorkerSocket" />
+        <item itemvalue="Application.WorkerSocket" />
+        <item itemvalue="Application.WorkerSocket (4)" />
+        <item itemvalue="Application.WorkerSocket" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.20224.419" />
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-IU-242.20224.419" />
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
       </set>
     </attachedChunks>
   </component>
@@ -108,6 +236,7 @@
       <workItem from="1731247533810" duration="306000" />
       <workItem from="1731248233046" duration="2752000" />
       <workItem from="1732279332540" duration="3648000" />
+      <workItem from="1732884838145" duration="8873000" />
     </task>
     <task id="LOCAL-00001" summary="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo">
       <option name="closed" value="true" />
