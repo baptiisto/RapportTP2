@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 class PiMonteCarlo {
+    int npro;
     AtomicInteger nAtomSuccess;
     int nThrows;
     double value;
@@ -16,13 +17,14 @@ class PiMonteCarlo {
                 nAtomSuccess.incrementAndGet();
         }
     }
-    public PiMonteCarlo(int i) {
+    public PiMonteCarlo(int i,int y) {
         this.nAtomSuccess = new AtomicInteger(0);
         this.nThrows = i;
         this.value = 0;
+        this.npro = y;
     }
     public double getPi() {
-        int nProcessors = Runtime.getRuntime().availableProcessors();
+        int nProcessors = this.npro;
         ExecutorService executor = Executors.newWorkStealingPool(nProcessors);
         for (int i = 1; i <= nThrows; i++) {
             Runnable worker = new MonteCarlo();

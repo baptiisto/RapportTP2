@@ -13,12 +13,17 @@ import java.util.concurrent.Future;
  */
 public class Pi
 {
-    public static void main(String[] args) throws Exception
-    {
-        long total=0;
-        // 10 workers, 50000 iterations each
-        total = new Master().doRun(1000000, 16);
-        //System.out.println("total from Master = " + total);
+    public static void main(String[] args) throws Exception {
+        if (args.length < 3) {
+            System.out.println("Usage: java Pi <totalCount> <numWorkers> <outputCsvFile>");
+            return;
+        }
+
+        int totalCount = Integer.parseInt(args[0]);  // Total number of points per worker
+        int numWorkers = Integer.parseInt(args[1]); // Number of workers (threads)
+        String outputCsvFile = args[2];             // CSV file name
+
+        long total = new Master().doRun(totalCount, numWorkers, outputCsvFile);
     }
 }
 
@@ -27,15 +32,13 @@ public class Pi
  * and aggregates the results.
  */
 class Master {
-    public long doRun(int totalCount, int numWorkers) throws InterruptedException, ExecutionException
-    {
+    public long doRun(int totalCount, int numWorkers, String outputCsvFile) throws InterruptedException, ExecutionException {
 
         long startTime = System.currentTimeMillis();
 
         // Create a collection of tasks
         List<Callable<Long>> tasks = new ArrayList<Callable<Long>>();
-        for (int i = 0; i < numWorkers; ++i)
-        {
+        for (int i = 0; i < numWorkers; ++i) {
             tasks.add(new Worker(totalCount));
         }
 
@@ -45,8 +48,7 @@ class Master {
         long total = 0;
 
         // Assemble the results.
-        for (Future<Long> f : results)
-        {
+        for (Future<Long> f : results) {
             // Call to get() is an implicit barrier.  This will block
             // until result from corresponding worker is ready.
             total += f.get();
@@ -57,13 +59,15 @@ class Master {
 
         System.out.println("\nPi : " + pi );
         System.out.println("Difference to exact value of pi: " + (pi - Math.PI));
-        System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) +"\n");
+        System.out.println("Error: " + (Math.abs((pi - Math.PI)) / Math.PI) + "\n");
 
-        System.out.println("Ntot: " + totalCount*numWorkers);
+        System.out.println("Ntot: " + totalCount * numWorkers);
         System.out.println("Available processors: " + numWorkers);
         System.out.println("Time Duration (ms): " + (stopTime - startTime) + "\n");
 
-        //System.out.println( (Math.abs((pi - Math.PI)) / Math.PI) +" "+ totalCount*numWorkers +" "+ numWorkers +" "+ (stopTime - startTime));
+        // Write results to the specified CSV file
+        CsvWriter writer = new CsvWriter(outputCsvFile);
+        writer.saveResults(pi, (pi - Math.PI), (Math.abs((pi - Math.PI)) / Math.PI), totalCount * numWorkers, numWorkers, (stopTime - startTime));
 
         exec.shutdown();
         return total;
