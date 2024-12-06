@@ -8,8 +8,8 @@ import java.util.List;
 public class PiAverageToCsv {
 
     public static void main(String[] args) throws IOException {
-        String inputFilePath = "pi_result.csv";  // Remplace ce chemin par le chemin de ton fichier CSV
-        String outputFilePath = "pi_moyenne_result.csv";  // Chemin du fichier de sortie
+        String inputFilePath = "src/assigment102.csv";  // Remplace ce chemin par le chemin de ton fichier CSV
+        String outputFilePath = "src/assigment102_moyenne_result.csv";  // Chemin du fichier de sortie
 
         List<List<Double>> columnsData = readCsv(inputFilePath);
 

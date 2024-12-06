@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="Ajout des tests sur le code master worker">
-      <change afterPath="$PROJECT_DIR$/src/CsvWriter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/script_pi_calcul.bat" afterDir="false" />
+    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="Ajout de code pour l'analyse de performance">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/rapport.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rapport.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assignment102.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assignment102.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PiMonteCarlo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PiMonteCarlo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/WorkerSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/WorkerSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PiAverageToCsv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PiAverageToCsv.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/script_pi_calcul.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/script_pi_calcul.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,31 +48,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Assignment102.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MasterSocket.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Pi.executor&quot;: &quot;Run&quot;,
-    &quot;Application.WorkerSocket (2).executor&quot;: &quot;Run&quot;,
-    &quot;Application.WorkerSocket (3).executor&quot;: &quot;Run&quot;,
-    &quot;Application.WorkerSocket (4).executor&quot;: &quot;Run&quot;,
-    &quot;Application.WorkerSocket (5).executor&quot;: &quot;Run&quot;,
-    &quot;Application.WorkerSocket.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bapti/IdeaProjects/RapportTP3/src&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/bapti/IdeaProjects/RapportTP2/src/Main.java&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Assignment102.executor": "Run",
+    "Application.MasterSocket.executor": "Run",
+    "Application.Pi.executor": "Run",
+    "Application.PiAverageToCsv.executor": "Run",
+    "Application.StrongScalability.executor": "Run",
+    "Application.StrongScalabilty.executor": "Run",
+    "Application.WorkerSocket (2).executor": "Run",
+    "Application.WorkerSocket (3).executor": "Run",
+    "Application.WorkerSocket (4).executor": "Run",
+    "Application.WorkerSocket (5).executor": "Run",
+    "Application.WorkerSocket.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/bapti/IdeaProjects/RapportTP3/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/bapti/IdeaProjects/RapportTP2/src/Main.java",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\bapti\IdeaProjects\RapportTP3\src" />
@@ -102,18 +100,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkerSocket (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+    <configuration name="StrongScalability" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="StrongScalability" />
       <module name="RapportTP2" />
-      <option name="PROGRAM_PARAMETERS" value="25546" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WorkerSocket (4)" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="WorkerSocket" />
+    <configuration name="StrongScalabilty" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="StrongScalabilty" />
       <module name="RapportTP2" />
-      <option name="PROGRAM_PARAMETERS" value="25545" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -208,18 +204,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.PiAverageToCsv" />
-      <item itemvalue="Application.WorkerSocket (4)" />
-      <item itemvalue="Application.WorkerSocket (3)" />
+      <item itemvalue="Application.StrongScalability" />
+      <item itemvalue="Application.StrongScalabilty" />
       <item itemvalue="Application.Assignment102" />
       <item itemvalue="Application.WorkerSocket" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.PiAverageToCsv" />
+        <item itemvalue="Application.StrongScalabilty" />
+        <item itemvalue="Application.StrongScalability" />
         <item itemvalue="Application.WorkerSocket" />
         <item itemvalue="Application.WorkerSocket" />
-        <item itemvalue="Application.WorkerSocket" />
-        <item itemvalue="Application.WorkerSocket (4)" />
       </list>
     </recent_temporary>
   </component>
@@ -242,7 +238,7 @@
       <workItem from="1731248233046" duration="2752000" />
       <workItem from="1732279332540" duration="3648000" />
       <workItem from="1732884838145" duration="13814000" />
-      <workItem from="1733131990335" duration="7565000" />
+      <workItem from="1733131990335" duration="17070000" />
     </task>
     <task id="LOCAL-00001" summary="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo">
       <option name="closed" value="true" />
@@ -260,7 +256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733127289347</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Ajout de code pour l'analyse de performance">
+      <option name="closed" value="true" />
+      <created>1733140651474</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733140651474</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +284,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo" />
     <MESSAGE value="Ajout des tests sur le code master worker" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout des tests sur le code master worker" />
+    <MESSAGE value="Ajout de code pour l'analyse de performance" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ajout de code pour l'analyse de performance" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -289,6 +294,15 @@
           <url>file://$PROJECT_DIR$/src/Main.java</url>
           <line>12</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/PiAverageToCsv.java</url>
+          <line>9</line>
+          <properties class="PiAverageToCsv" method="main">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

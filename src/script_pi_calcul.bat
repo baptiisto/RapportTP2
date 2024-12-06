@@ -30,7 +30,7 @@ foreach ($TOTAL_POINTS in $POINTS_LIST) {
 
             Write-Host "Running with $t threads (Iteration $i) for $OUTPUT_CSV_2..."
             # Exécution de la commande Java avec le programme Assignment102
-            java Assignment102 $TOTAL_POINTS $t $OUTPUT_CSV_2
+            #java Assignment102 $TOTAL_POINTS $t $OUTPUT_CSV_2
         }
     }
 }
