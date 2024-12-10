@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="Ajout de l'uml du master socket">
-      <change afterPath="$PROJECT_DIR$/docs/DiagrammedestachesMASTERSocket.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/script_scalabilite_faible.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/rapport.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rapport.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script_pi_calcul.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/script_scalabilite_forte.bat" afterDir="false" />
-    </list>
+    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="feat (src) : Ajout d'un script automatique pour le calcul de la scalabilité faible" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -240,7 +234,7 @@
       <workItem from="1731248233046" duration="2752000" />
       <workItem from="1732279332540" duration="3648000" />
       <workItem from="1732884838145" duration="13814000" />
-      <workItem from="1733131990335" duration="24546000" />
+      <workItem from="1733131990335" duration="24624000" />
     </task>
     <task id="LOCAL-00001" summary="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo">
       <option name="closed" value="true" />
@@ -274,7 +268,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733471151690</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat (src) : Ajout d'un script automatique pour le calcul de la scalabilité faible">
+      <option name="closed" value="true" />
+      <created>1733853512740</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733853512740</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,7 +298,8 @@
     <MESSAGE value="Ajout des tests sur le code master worker" />
     <MESSAGE value="Ajout de code pour l'analyse de performance" />
     <MESSAGE value="Ajout de l'uml du master socket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ajout de l'uml du master socket" />
+    <MESSAGE value="feat (src) : Ajout d'un script automatique pour le calcul de la scalabilité faible" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat (src) : Ajout d'un script automatique pour le calcul de la scalabilité faible" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
