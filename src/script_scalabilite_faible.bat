@@ -1,5 +1,5 @@
 # Configuration des différents nombres de points à tester
-$POINTS_LIST = @(1600000, 16000000, 160000000)
+$POINTS_LIST = @(100000, 1000000, 10000000)
 
 # Configurations des threads à tester
 $THREAD_COUNTS = 1, 2, 4, 8, 16
