@@ -60,7 +60,7 @@ public class WorkerSocket {
                 // Calculer Monte Carlo
                 int totalThrows = Integer.parseInt(str);
                 //int totalInside = computeMonteCarlo(totalThrows);
-                int totalInside = (int) new Master().doRun(totalThrows, 1,"trash");
+                int totalInside = (int) new Master().doRun(totalThrows, 1,"");
 
                 // Envoyer le résultat au Master
                 System.out.println("Envoi au Master : totalInside = " + totalInside);

@@ -10,6 +10,12 @@ public class CsvWriter {
 
     // Method to save results
     public void saveResults(double pi, double difference, double error, long ntot, int processors, long timeDuration) {
+        // Check if fileName is empty
+        if (this.fileName == null || this.fileName.trim().isEmpty()) {
+            //System.err.println("Filename is empty. Results will not be saved.");
+            return;
+        }
+
         File file = new File(this.fileName);
         boolean isNewFile = !file.exists();
 
@@ -26,3 +32,4 @@ public class CsvWriter {
         }
     }
 }
+
