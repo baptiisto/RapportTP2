@@ -12,6 +12,7 @@ public class MasterSocket {
 	static BufferedReader[] reader = new BufferedReader[maxServer];
 	static PrintWriter[] writer = new PrintWriter[maxServer];
 	static Socket[] sockets = new Socket[maxServer];
+	static String filename = "master_results.csv";
 
 	public static void main(String[] args) throws Exception {
 		long totalCount = 2000000; // total number of throws on a Worker
@@ -25,7 +26,6 @@ public class MasterSocket {
 		System.out.println("#########################################");
 		System.out.println("# Computation of PI by MC method        #");
 		System.out.println("#########################################");
-
 
 
 		// Create worker sockets
@@ -77,8 +77,8 @@ public class MasterSocket {
 			System.out.println("Available processors: " + numWorkers);
 			System.out.println("Time Duration (ms): " + timeDuration + "\n");
 
-			// Save results to CSV
-			saveResultsToCsv("results.csv", pi, difference, error, ntot, numWorkers, timeDuration);
+			CsvWriter writer = new CsvWriter(filename);
+			writer.saveResults(pi, difference, error, ntot, numWorkers, timeDuration);
 
 			// Repeat computation prompt
 			System.out.println("\nRepeat computation (y/N): ");
@@ -97,26 +97,6 @@ public class MasterSocket {
 			reader[i].close();
 			writer[i].close();
 			sockets[i].close();
-		}
-	}
-
-	/**
-	 * Saves the results to a CSV file.
-	 */
-	private static void saveResultsToCsv(String fileName, double pi, double difference, double error, long ntot, int processors, long timeDuration) {
-		File file = new File(fileName);
-		boolean isNewFile = !file.exists();
-
-		try (FileWriter fw = new FileWriter(file, true); BufferedWriter bw = new BufferedWriter(fw); PrintWriter writer = new PrintWriter(bw)) {
-			if (isNewFile) {
-				// Write header if file is new
-				writer.println("PI,Difference,Error,Ntot,AvailableProcessors,TimeDuration(ms)");
-			}
-			// Add results to file
-			writer.printf("%f;%f;%f;%d;%d;%d;%n", pi, difference, error, ntot, processors, timeDuration);
-			System.out.println("Results saved to file: " + fileName);
-		} catch (IOException e) {
-			System.err.println("Error writing to CSV file: " + e.getMessage());
 		}
 	}
 }

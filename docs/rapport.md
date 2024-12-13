@@ -1,5 +1,6 @@
 # Rapport Prog Avancée Part 2
 
+## Intro : Ce rapport fut en partie fait par chat GPT qui a recu des notes que j'ai écrises pour rédigées des phrases à certaines parties du rapport.
 ## I. Monte Carlo pour calculer π
 
 Soit l'aire `A_quartD` d'un quart de disque de rayon 1 :
@@ -36,7 +37,7 @@ D'où :
 ### Image : Schéma de MonteCarlo 
 ![SchémaDeMonteCarlo](MonteCarlo.png)
 
-## II. Algorithme
+## II. Algorithme et parallélisation.
 
 ```python
 ncible = 0
@@ -70,7 +71,6 @@ for (p = 0; n_tot > 0; n_tot--) {
 - **Section critique** : `ncible += 1`.
 ### Conclusion 
 Nous pouvons en conclure que les instances de TOp1 peuvent être entièrement parallélisées, car elles sont indépendantes les unes des autres et ne constituent pas une ressource critique.
-## 2. Algorithme et parallélisation. 
 
 ###  a. Paradigme Itérations parallèles
 
@@ -529,21 +529,174 @@ Cependant, la dimension **multiniveaux** entre en jeu lorsque les **Workers** ap
 
 En résumé, il s'agit d'une **programmation distribuée** utilisant des **sockets** pour la communication entre le **Master** et les **Workers**, avec une **programmation multiniveaux** lorsque les **Workers** interagissent avec le **Master** de PI.java dans un environnement parallèle.
 
+## 6. Performance MasterWorker Socket
 
+### Expérience 1 : calcul de la stabilité forte (Code : MasterSocket : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
 
-Plan à suivre : 
-1 Methode MC
-2 Algo et parallélisation
-   a) Iteraration
-   b) MasterWorker
-3 Mise en oeuvre sur Machine à Partagé
-   a) Analyse Assignment 102
-   b) Analyse Pi.java
-4 Qualité de test de perf
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
+|----------|------------|----------|-------------------|---------------------|-------------------|
+3,141173|-0,000420|0,000294|1600000,000000|1,000000|57,066667
+3,141737|0,000144|0,000423|1600000,000000|2,000000|31,466667
+3,141513|-0,000080|0,000338|1600000,000000|4,000000|19,933333
+3,141787|0,000194|0,000195|1600000,000000|8,000000|11,733333
+3,140975|-0,000618|0,000447|1600000,000000|16,000000|15,000000
+3,141639|0,000047|0,000103|16000000,000000|1,000000|490,466667
+3,141688|0,000096|0,000112|16000000,000000|2,000000|246,866667
+3,141731|0,000138|0,000096|16000000,000000|4,000000|125,866667
+3,141549|-0,000044|0,000079|16000000,000000|8,000000|73,666667
+3,141588|-0,000005|0,000099|16000000,000000|16,000000|47,800000
+3,141594|0,000001|0,000042|160000000,000000|1,000000|4765,333333
+3,141627|0,000034|0,000030|160000000,000000|2,000000|2391,133333
+3,141602|0,000009|0,000028|160000000,000000|4,000000|1206,133333
+3,141588|-0,000005|0,000038|160000000,000000|8,000000|620,400000
+3,141569|-0,000023|0,000031|160000000,000000|16,000000|359,533333
 
-5 Mise en oeuvre en memoire dist
-   a) Java Socket Mw
+#### Observations générales :
 
-6 Perf MW
+![grapheScalabiliteForteMS](graphe_scalabilite_forte_mastersocket.png)
+
+1. **Tendance globale :**
+    - Le Speed-up augmente avec le nombre de processeurs pour toutes les tailles de charge (\(N_{tot}\)).
+    - Plus N_{tot} est élevé, plus le Speed-up observé se rapproche du Speed-up idéal.
+
+2. **Influence de la taille de la charge (\(N_{tot}\)) :**
+    - Pour N_tot = 1.6 * 10^6) (courbe bleue) :
+        - Le Speed-up plafonne rapidement et diminue après 8 processeurs.
+        - Cela indique une surcharge de communication et une charge de calcul insuffisante par processeur.
+    - Pour N_tot = 1.6 * 10^7) (courbe orange) :
+        - Le Speed-up est meilleur, mais reste en dessous de l'idéal, avec un ralentissement visible à partir de 8 processeurs.
+    - Pour N_tot = 1.6*times 10^8) (courbe verte) :
+        - Le Speed-up se rapproche du comportement idéal jusqu'à 16 processeurs, montrant une bonne scalabilité pour cette taille de charge.
+
+3. **Écart avec le Speed-up idéal :**
+    - L'écart entre le Speed-up observé et idéal augmente avec un petit \(N_{tot}\), ce qui montre que les frais généraux de communication deviennent dominants pour des charges faibles.
+
+#### Interprétation des résultats :
+- **Surcharge de communication :**
+    - Le modèle MasterWorker docket implique des échanges constants entre le master et les workers via des sockets. Pour des petites charges (N_tot = 1.6 * 10^6)), ces frais de communication surpassent le gain de parallélisme.
+
+- **Déséquilibre calcul/communication :**
+    - Avec des charges plus importantes (N_tot = 1.6 * 10^8)), la part de communication devient négligeable face au temps de calcul, ce qui explique la meilleure scalabilité.
+
+#### Conclusion :
+Le modèle **MasterWorker** montre une **bonne scalabilité forte** pour des charges élevées.
+
+### Expérience 2 : calcul de la stabilité faible (Code : MasterSocket : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
+
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
+|----------|------------|----------|-------------------|---------------------|-------------------|
+3,142757|0,001164|0,001715|100000,000000|1,000000|7,000000
+3,139159|-0,002434|0,001148|200000,000000|2,000000|8,666667
+3,141306|-0,000287|0,000732|400000,000000|4,000000|9,133333
+3,142230|0,000637|0,000441|800000,000000|8,000000|11,466667
+3,142010|0,000417|0,000296|1600000,000000|16,000000|14,800000
+3,141658|0,000065|0,000341|1000000,000000|1,000000|33,466667
+3,141141|-0,000452|0,000392|2000000,000000|2,000000|36,000000
+3,141809|0,000216|0,000183|4000000,000000|4,000000|38,666667
+3,141421|-0,000172|0,000171|8000000,000000|8,000000|40,866667
+3,141600|0,000007|0,000094|16000000,000000|16,000000|47,666667
+3,141617|0,000024|0,000128|10000000,000000|1,000000|290,266667
+3,141607|0,000015|0,000088|20000000,000000|2,000000|297,800000
+3,141565|-0,000028|0,000089|40000000,000000|4,000000|300,533333
+3,141599|0,000007|0,000061|80000000,000000|8,000000|313,866667
+3,141609|0,000016|0,000028|160000000,000000|16,000000|369,066667
+
+#### Analyse du graphe (Scalabilité faible - MasterWorker) :
+
+![grapheScalabiliteFaibleMS](graphe_scalabilite_faible_mastersocket.png)
+
+1. **Charges faibles (\(Ntot/Processors = 10^5\))** :
+    - Performance très médiocre : le Speed-up chute rapidement avec l'augmentation des processeurs.
+    - Les coûts de communication (latence, synchronisation) surpassent largement les bénéfices du parallélisme.
+
+2. **Charges élevées (\(Ntot/Processors = 10^7\))** :
+    - Bonne performance : le Speed-up reste plus stable, car le temps de calcul compense les coûts de communication.
+
+3. **Charge intermédiaire (\(Ntot/Processors = 10^6\))** :
+    - Résultat mitigé, entre les deux cas.
+
+#### Causes principales :
+- **Latence des sockets** : Dominante pour les petites charges.
+- **Ratio calcul/communication** : Amélioré pour des charges élevées.
+
+#### Conclusion :
+Le modèle MasterWorker est inefficace pour les charges faibles mais performant pour les charges élevées, où le calcul amortit les coûts de communication.
+
+### **Comparaison MasterSocket vs Pi :**
+
+- **MasterSocket** utilise des **sockets** et une **mémoire distribuée**, ce qui est plus adapté pour gérer des charges lourdes et des communications entre nœuds.
+- **Pi** utilise la **mémoire partagée** avec **ExecutorService** et **Future**, plus efficace pour les petites charges mais limité pour les grandes.
+
+### **Pourquoi MasterSocket est meilleur :**
+
+- **Scalabilité forte** : MasterSocket gère mieux les charges lourdes grâce à la mémoire distribuée et aux sockets.
+- **Scalabilité faible** : MasterSocket est aussi plus performant avec de petites charges, car il optimise la communication entre les nœuds.
+
+## 7.  Mise en place du code Master Worker socket sur plusieurs Machines:
+
+### 1. **Préparation des machines en CentOS 9 :**
+- Tout d'abord, nous avons configuré les machines des travailleurs (workers) et du maître (master) pour qu'elles soient prêtes à exécuter du code Java et à communiquer entre elles.
+- Pour cela, nous avons installé l'outil de développement Java sur chaque machine avec la commande suivante :
+  ```bash
+  sudo yum install java-devel
+  ```
+
+### 2. **Ouverture des ports sur les machines des travailleurs :**
+- Chaque machine servant de "worker" doit être capable de communiquer avec le **master** via un port TCP spécifique. Pour éviter toute surcharge des ports, chaque machine utilise un **port distinct**.
+- Nous avons donc ouvert des ports spécifiques pour chaque worker dans le pare-feu, par exemple, pour le port 25545 pour le premier worker :
+  ```bash
+  firewall-cmd --zone=public --add-port=25545/tcp
+  ```
+- Cette commande permet aux connexions entrantes, comme celles du master, de se faire via les ports ouverts.
+
+### 3. **Tableau d'adresses IP et de ports :**
+- Chaque machine dans le cluster a une **adresse IP unique** pour pouvoir être identifiée de manière distincte. De plus, chaque worker écoute sur un **port TCP différent** afin de ne pas surcharger un seul port.
+- Pour gérer cela, nous avons créé un tableau d'adresses IP et un tableau de ports dans le code :
+  ```java
+  static final String[] tab_ips = {
+      "192.168.24.154", "192.168.24.150", "192.168.0.103", "192.168.0.104",
+      "192.168.0.105", "192.168.0.106", "192.168.0.107", "192.168.0.108"
+  };
+  static final int[] tab_ports = {25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552};
+  ```
+- Le **master** se connecte à chaque worker en utilisant à la fois l'adresse IP et le port correspondant :
+  ```java
+  sockets[i] = new Socket(tab_ips[i], tab_ports[i]);
+  ```
+
+### 4. **Déploiement et compilation du code :**
+- Après avoir configuré les machines et ouvert les ports nécessaires, nous avons copié le code Java sur chaque machine (tant pour le **master** que pour les **workers**).
+- Une fois le code copié, nous avons compilé tous les fichiers Java avec la commande suivante sur chaque machine :
+  ```bash
+  javac *.java
+  ```
+
+### 5. **Exécution des workers :**
+- Chaque machine worker est ensuite lancée pour écouter les connexions du master via un port spécifique. Pour cela, sur chaque machine worker, nous avons exécuté la commande suivante, en remplaçant `{num_port}` par le port attribué à chaque worker :
+  ```bash
+  ./java Workersocket {num_port}
+  ```
+- Par exemple, pour le premier worker, la commande serait :
+  ```bash
+  ./java Workersocket 25545
+  ```
+
+### 6. **Lancement du master :**
+- Une fois tous les workers lancés et en écoute, le **master** est exécuté. Ce dernier établit des connexions avec chaque worker via leurs adresses IP et ports respectifs. Il envoie des requêtes pour effectuer des calculs Monte Carlo et reçoit les résultats de chaque worker.
+- Le master collecte les résultats de tous les workers, les combine, puis affiche le calcul de Pi. Il enregistre également les résultats dans un fichier CSV pour un suivi ultérieur.
+
+### 7. **Résultats et sauvegarde :**
+- Une fois le calcul terminé, les résultats sont affichés sur la console, incluant le calcul de Pi, l'erreur relative, le nombre total de points traités, le nombre de processeurs utilisés et la durée du calcul.
+- Les résultats sont également sauvegardés dans un fichier CSV avec l'utilisation de la méthode suivante dans le code Java :
+  ```java
+  saveResults( pi, difference, error, ntot, numWorkers, timeDuration); de la classe CSVWriter
+  ```
+- Le fichier CSV contient des informations telles que :
+  ```
+  PI,Difference,Error,Ntot,AvailableProcessors,TimeDuration(ms)
+  ```
+
+### 8. **Avantage de cette approche :**
+L'avantage majeur de cette approche est la possibilité d'optimiser l'utilisation des ressources des machines. Chaque machine dispose d'au moins **8 cœurs logiques**, ce qui permettrait, lors de l'appel de `PI.java` par le `WorkerSocket`, d'ajouter plusieurs workers sur chaque machine pour exploiter pleinement ces cœurs. Cela permettrait d'augmenter le nombre de workers tout en restant sur la même machine, en améliorant ainsi l'efficacité du calcul parallèle sans avoir à ajouter de nouvelles machines.
 
 
