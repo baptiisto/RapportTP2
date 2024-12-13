@@ -1,6 +1,12 @@
 # Rapport Prog Avancée Part 2
 
-## Intro : Ce rapport fut en partie fait par chat GPT qui a recu des notes que j'ai écrises pour rédigées des phrases à certaines parties du rapport.
+## Introduction
+Ce rapport présente les travaux réalisés dans le cadre de la deuxième partie du projet de Programmation Avancée, combinant analyses théoriques et implémentations pratiques. Il s'appuie sur des notes personnelles et a été partiellement rédigé avec l'aide de ChatGPT pour structurer et formuler certaines sections.
+
+Les travaux explorent plusieurs aspects de la programmation parallèle et distribuée. La méthode Monte Carlo est utilisée pour estimer la valeur de π, avec une analyse détaillée des algorithmes et des techniques de parallélisation mises en œuvre. L'implémentation débute sur une machine à mémoire partagée, suivie d'une évaluation des performances pour le calcul de π et l'Assignment 102. Ensuite, l'algorithme Monte Carlo est adapté à un environnement à mémoire distribuée, et une architecture Master-Worker basée sur des sockets est développée.
+
+Enfin, le code Master-Worker est déployé et testé sur plusieurs machines afin d’évaluer les performances dans un contexte réel. Chaque étape de ce projet met en lumière les défis et les avantages de la programmation avancée, en particulier dans des environnements parallèles et distribués.
+
 ## I. Monte Carlo pour calculer π
 
 Soit l'aire `A_quartD` d'un quart de disque de rayon 1 :
@@ -72,7 +78,7 @@ for (p = 0; n_tot > 0; n_tot--) {
 ### Conclusion 
 Nous pouvons en conclure que les instances de TOp1 peuvent être entièrement parallélisées, car elles sont indépendantes les unes des autres et ne constituent pas une ressource critique.
 
-###  a. Paradigme Itérations parallèles
+###  a. Paradigme Itérations parallels
 
 
     ENTRÉES :
@@ -166,7 +172,7 @@ Estimation de π :
 
 Le master calcule π en utilisant la formule π ≈ 4 * ncible_total / n_tot.
 
-## Mise en oeuvre sur Machine à mémoire partagé 
+## 3.Mise en oeuvre sur Machine à mémoire partagé 
 ###  a. Analyse de Assigment102
 
 
@@ -328,6 +334,19 @@ Pour le traitement on utilise la classe PiAverageToCsv qui  permet de calculer l
 
 Avec les résultats obtenus sous forme de fichiers CSV, j'utilise un code Python pour calculer le speed-up et tracer les graphes correspondants. Ce script extrait les données, calcule le speed-up en comparant le temps d'exécution avec un seul processeur à celui avec plusieurs processeurs, et génère un graphique montrant la scalabilité forte et faible, avec une courbe pour chaque valeur unique de Ntot. Les graphes incluent également une référence au speed-up idéal pour évaluer l'efficacité parallèle.
 
+### Architecture matérielle choisie pour lancer les tests
+
+- **Processeur** : Intel Core i7-12700T
+    - 12 cœurs physiques
+    - 20 threads
+    - 8 P-cores (cœurs performants)
+    - Fréquence de base : 1,4 GHz
+    - Fréquence Turbo : jusqu'à 4,7 GHz
+    - Architecture 64 bits
+
+- **Mémoire RAM** : 32 Go
+
+Cette architecture est également utilisée pour les tests décrits dans la partie 6.
 
 ### Expérience 1 : calcul de la stabilité forte (Code : assigment102 : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
 

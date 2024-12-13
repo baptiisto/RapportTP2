@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="docs(docs) : Ajout de l'uml du code Assigment 102">
-      <change afterPath="$PROJECT_DIR$/docs/graphe_scalabilite_faible_assigment102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/graphe_scalabilite_faible_pi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/graphe_scalabilite_forte_assigment102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/graphe_scalabilite_forte_pi.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/uml_assigment102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assigment102_faible.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assigment102_forte.csv" afterDir="false" />
+    <list default="true" id="0cd197a1-c18d-4ae0-883e-52c8d2a82633" name="Changes" comment="docs (rapport.md) : Ajout de la partie 6 et 7 avec les graphes correspondants à la partie 6">
       <change afterPath="$PROJECT_DIR$/src/pi_result_faible.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/pi_result_forte.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/rapport.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rapport.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/umlAssigment102.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/umlPi.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/umlPi.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PiAverageToCsv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PiAverageToCsv.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/script_scalabilite_faible.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/script_scalabilite_faible.bat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,6 +244,7 @@
       <workItem from="1732279332540" duration="3648000" />
       <workItem from="1732884838145" duration="13814000" />
       <workItem from="1733131990335" duration="47036000" />
+      <workItem from="1734026030725" duration="10123000" />
     </task>
     <task id="LOCAL-00001" summary="Docs(Rapport.md) : Ajout  de l'explication de MonteCarlo">
       <option name="closed" value="true" />
@@ -311,7 +302,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733853650872</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="docs(docs) : Ajout de la partie 3,4,5 et les UMl et graphes correspondant à ces parties">
+      <option name="closed" value="true" />
+      <created>1734026427366</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1734026427366</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat (CsvWriter) : Ajout de la possibilité de ne pas sauvergarder les rédsultats">
+      <option name="closed" value="true" />
+      <created>1734026492827</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734026492827</updated>
+    </task>
+    <task id="LOCAL-00010" summary="docs (rapport.md) : Ajout de la partie 6 et 7 avec les graphes correspondants à la partie 6">
+      <option name="closed" value="true" />
+      <created>1734088214325</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1734088214325</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,7 +351,10 @@
     <MESSAGE value="feat (src) : Ajout d'un script automatique pour le calcul de la scalabilité faible" />
     <MESSAGE value="docs(docs) : Ajout de l'uml du code Pi.java" />
     <MESSAGE value="docs(docs) : Ajout de l'uml du code Assigment 102" />
-    <option name="LAST_COMMIT_MESSAGE" value="docs(docs) : Ajout de l'uml du code Assigment 102" />
+    <MESSAGE value="docs(docs) : Ajout de la partie 3,4,5 et les UMl et graphes correspondant à ces parties" />
+    <MESSAGE value="feat (CsvWriter) : Ajout de la possibilité de ne pas sauvergarder les rédsultats" />
+    <MESSAGE value="docs (rapport.md) : Ajout de la partie 6 et 7 avec les graphes correspondants à la partie 6" />
+    <option name="LAST_COMMIT_MESSAGE" value="docs (rapport.md) : Ajout de la partie 6 et 7 avec les graphes correspondants à la partie 6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
