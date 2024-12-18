@@ -8,13 +8,13 @@ import java.util.List;
 public class PiAverageToCsv {
 
     public static void main(String[] args) throws IOException {
-        String inputFilePath = "src/MasterSocketForte.csv";  // Remplace ce chemin par le chemin de ton fichier CSV
-        String outputFilePath = "src/MasterSocketForteResult.csv";  // Chemin du fichier de sortie
+        String inputFilePath = "src/piG24_result.csv";  // Remplace ce chemin par le chemin de ton fichier CSV
+        String outputFilePath = "src/piG24_result.csv_faible_moyenne.csv";  // Chemin du fichier de sortie
 
         List<List<Double>> columnsData = readCsv(inputFilePath);
 
         // Calculer la moyenne toutes les 5 lignes pour chaque colonne
-        List<List<Double>> averagedData = calculateAverages(columnsData, 15);
+        List<List<Double>> averagedData = calculateAverages(columnsData, 5);
 
         // Sauvegarder les résultats dans un nouveau fichier CSV, y compris l'entête
         writeCsvWithHeader(averagedData, inputFilePath, outputFilePath);

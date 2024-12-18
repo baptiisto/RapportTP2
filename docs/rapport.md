@@ -47,7 +47,7 @@ D'où :
 
 ```python
 ncible = 0
-for (p = 0; n_tot > 0; n_tot--) {
+for (p = 0| n_tot > 0; n_tot--) {
     xp = rand()  # Loi U(]0,1[)
     yp = rand()
     if ((xp**2 + yp**2) < 1) {
@@ -336,38 +336,87 @@ Avec les résultats obtenus sous forme de fichiers CSV, j'utilise un code Python
 
 ### Architecture matérielle choisie pour lancer les tests
 
-- **Processeur** : Intel Core i7-12700T
-    - 12 cœurs physiques
-    - 20 threads
-    - 8 P-cores (cœurs performants)
-    - Fréquence de base : 1,4 GHz
-    - Fréquence Turbo : jusqu'à 4,7 GHz
+- **Processeur** : Intel Core i9-129000KF
+    - 16 cœurs physiques
+    - 24 threads
+    - Fréquence de base : 3,2GHz
     - Architecture 64 bits
 
 - **Mémoire RAM** : 32 Go
 
 Cette architecture est également utilisée pour les tests décrits dans la partie 6.
 
+### Rapport avec la norme Iso
+
+#### Calcul du Time et du Task Time
+
+Dans l’évaluation des performances, deux approches peuvent être utilisées pour définir le temps cible (Tt) et le temps mesuré (Ta) :
+
+1. **Comparaison avec un code séquentiel**
+    - Le temps cible (Tt) est égal au temps d’exécution avec un seul processeur, soit T1.
+    - Le temps mesuré (Ta) est égal au temps d’exécution parallèle avec p processeurs, soit Tp.
+
+   Cette approche permet de mesurer directement l’amélioration apportée par le parallélisme par rapport à une exécution séquentielle.
+
+2. **Parallélisme idéal (notre choix)**
+    - Le temps cible (Tt) est défini comme Tp, ce qui correspond au temps  idéal, c’est-à-dire le temps théorique si le parallélisme était parfait.
+    - Le temps mesuré (Ta) est défini comme Tp, soit le temps réel mesuré avec p processeurs.
+
+   Cette approche permet d’évaluer dans quelle mesure le code parallèle se rapproche du parallélisme idéal.
+
+#### Calcul de l’efficacité selon la norme ISO/IEC 25022:2012
+
+Conformément à la norme ISO/IEC 25022:2012, l’efficacité peut être calculée avec la formule suivante :
+- Efficacité = Tt/Ta * 100
+
+    - Tt représente le temps cible, soit Temps idéal paralélle  dans notre cas.
+    - Ta représente le temps mesuré, soit Tp.
+on pourrait aussi utiliser la 
+
+Cette formule mesure l'efficacité du programme plus le pourcentage est grand mieux c'est.
+
+une autre formule possible pour calculer l'efficacité c'est  (Tt - Ta)/Tt et Tt = (1/p)*T1
+
+La formule du Time correspond à
+- TT/ta
+ ce qui correspond au speedup précedemment écrit. Le time va comparer le code séqeuntiel au temps paralléle
+
+
+### Effectiveness selon la norme ISO/IEC 25022:2012
+
+Cette fois-ci, au lieu d'utiliser la métrique du temps pour évaluer les performances, nous allons utiliser la **métrique de l'erreur**. Cette approche nous permet de mesurer l'écart entre la valeur calculée par notre code de Monte Carlo et la valeur réelle (ici, \( \pi \)) en fonction du nombre d'itérations (ou du nombre total de points générés).
+
+La formule de l'erreur est la suivante :
+- **Erreur = Math.abs((value - Math.PI)) / Math.PI**
+
+Où :
+- **value** est la valeur estimée par le code de Monte Carlo pour pi.
+- **Math.PI** est la valeur réelle de pi .
+
+L'objectif ici est de vérifier comment l'erreur évolue à mesure que le nombre d'itérations augmente. En général, plus le nombre de points générés (et donc le nombre d'itérations) est élevé, plus l'estimation de pi devrait se rapprocher de la valeur réelle, et l'erreur devrait diminuer.
+Cela revient aussi à calculer le trust/la fiabilité du code (dans la section satisfaction de Quality in Use) des algorithmes.
+Nous analyserons le trust dans les expériences reliées à la scalabilité faible car ces tests comportent une plus grande variété de points.
+
 ### Expérience 1 : calcul de la stabilité forte (Code : assigment102 : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
 
 
-| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
-|----------|------------|----------|-------------------|---------------------|-------------------|
-| 3.141111 | -0.000482  | 0.000391 | 1,600,000         | 1                   | 134.2             |
-| 3.140829 | -0.000764  | 0.000407 | 1,600,000         | 2                   | 269.6             |
-| 3.142022 | 0.000429   | 0.000381 | 1,600,000         | 4                   | 306.2             |
-| 3.141752 | 0.000159   | 0.000209 | 1,600,000         | 8                   | 424.8             |
-| 3.142113 | 0.000520   | 0.000309 | 1,600,000         | 16                  | 583.2             |
-| 3.141616 | 0.000023   | 0.000095 | 16,000,000        | 1                   | 1211.2            |
-| 3.141843 | 0.000250   | 0.000089 | 16,000,000        | 2                   | 2616.8            |
-| 3.141547 | -0.000046  | 0.000054 | 16,000,000        | 4                   | 2861.4            |
-| 3.141543 | -0.000050  | 0.000102 | 16,000,000        | 8                   | 3653.4            |
-| 3.141485 | -0.000108  | 0.000079 | 16,000,000        | 16                  | 4972.4            |
-| 3.141697 | 0.000104   | 0.000033 | 160,000,000       | 1                   | 12522.6           |
-| 3.141580 | -0.000012  | 0.000016 | 160,000,000       | 2                   | 25139.0           |
-| 3.141554 | -0.000039  | 0.000031 | 160,000,000       | 4                   | 28992.6           |
-| 3.141611 | 0.000018   | 0.000036 | 160,000,000       | 8                   | 35252.4           |
-| 3.141586 | -0.000007  | 0.000021 | 160,000,000       | 16                  | 46755.6           |
+|PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
+|--|----|----|----|----|----|---|
+3.141111|-0.000482|0.000391|1600000.0|1.0|134.2|100.0
+3.140829|-0.000764|0.000407|1600000.0|2.0|269.6|24.888724035608302
+3.142022|0.000429|0.000381|1600000.0|4.0|306.2|10.956890920966687
+3.141752|0.000159|0.000209|1600000.0|8.0|424.8|3.948917137476459
+3.142113|0.00052|0.000309|1600000.0|16.0|583.2|1.4381858710562412
+3.141616|2.3e-05|9.5e-05|16000000.0|1.0|1211.2|100.0
+3.141843|0.00025|8.9e-05|16000000.0|2.0|2616.8|23.14276979516967
+3.141547|-4.6e-05|5.4e-05|16000000.0|4.0|2861.4|10.582232473614313
+3.141543|-5e-05|0.000102|16000000.0|8.0|3653.4|4.144084961953249
+3.141485|-0.000108|7.9e-05|16000000.0|16.0|4972.4|1.5224036682487332
+3.141697|0.000104|3.3e-05|160000000.0|1.0|12522.6|100.0
+3.14158|-1.2e-05|1.6e-05|160000000.0|2.0|25139.0|24.906718644337484
+3.141554|-3.9e-05|3.1e-05|160000000.0|4.0|28992.6|10.798100204879866
+3.141611|1.8e-05|3.6e-05|160000000.0|8.0|35252.4|4.4403359771249615
+3.141586|-7e-06|2.1e-05|160000000.0|16.0|46755.6|1.6739438698252187
 
 ### Observations du graphe
 ![grapheScalabiliteForteAssi](graphe_scalabilite_forte_assigment102.png)
@@ -385,24 +434,25 @@ Le goulet d'étranglement causé par un `atomic integer` force les threads à at
 #### Conclusion
 Assignment 102 montre une scalabilité fortement limitée, voire contre-productive, mettant en évidence un problème majeur de synchronisation et de gestion des tâches parallèles.
 
+
 ### Expérience 2 : calcul de la stabilité forte (Code : Pi : Nombre de Points : 10^6,10^7,10^8*1,6  Nombre de processeurs : 1,2,4,8,16)
-| PI   | Difference | Error | Ntot              | AvailableProcessors | TimeDuration(ms) |
-|------|------------|-------|-------------------|---------------------|------------------|
-3,141300|-0,000293|0,000334|1600000,000000|1,000000|46,000000
-3,141822|0,000229|0,000466|1600000,000000|2,000000|34,200000
-3,141238|-0,000355|0,000218|1600000,000000|4,000000|26,200000
-3,141373|-0,000220|0,000446|1600000,000000|8,000000|38,600000
-3,141745|0,000152|0,000413|1600000,000000|16,000000|58,400000
-3,141868|0,000276|0,000171|16000000,000000|1,000000|420,600000
-3,141840|0,000247|0,000085|16000000,000000|2,000000|224,400000
-3,141374|-0,000218|0,000143|16000000,000000|4,000000|129,400000
-3,141499|-0,000094|0,000070|16000000,000000|8,000000|85,400000
-3,141570|-0,000023|0,000156|16000000,000000|16,000000|70,800000
-3,141577|-0,000016|0,000045|160000000,000000|1,000000|4162,200000
-3,141465|-0,000128|0,000041|160000000,000000|2,000000|2177,000000
-3,141636|0,000044|0,000050|160000000,000000|4,000000|1141,800000
-3,141479|-0,000113|0,000036|160000000,000000|8,000000|592,600000
-3,141479|-0,000113|0,000040|160000000,000000|16,000000|349,200000
+PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
+|---|---|-----|-----|----|----|---|
+3.1413|-0.000293|0.000334|1600000.0|1.0|46.0|100.0
+3.141822|0.000229|0.000466|1600000.0|2.0|34.2|67.25146198830409
+3.141238|-0.000355|0.000218|1600000.0|4.0|26.2|43.89312977099237
+3.141373|-0.00022|0.000446|1600000.0|8.0|38.6|14.896373056994818
+3.141745|0.000152|0.000413|1600000.0|16.0|58.4|4.9229452054794525
+3.141868|0.000276|0.000171|16000000.0|1.0|420.6|100.0
+3.14184|0.000247|8.5e-05|16000000.0|2.0|224.4|93.71657754010695
+3.141374|-0.000218|0.000143|16000000.0|4.0|129.4|81.2596599690881
+3.141499|-9.4e-05|7e-05|16000000.0|8.0|85.4|61.56323185011709
+3.14157|-2.3e-05|0.000156|16000000.0|16.0|70.8|37.1292372881356
+3.141577|-1.6e-05|4.5e-05|160000000.0|1.0|4162.2|100.0
+3.141465|-0.000128|4.1e-05|160000000.0|2.0|2177.0|95.59485530546623
+3.141636|4.4e-05|5e-05|160000000.0|4.0|1141.8|91.13242249080399
+3.141479|-0.000113|3.6e-05|160000000.0|8.0|592.6|87.79530880863989
+3.141479|-0.000113|4e-05|160000000.0|16.0|349.2|74.49527491408935
 
 ### Observations du graphe
 
@@ -515,9 +565,28 @@ Le code **PI.java** démontre une **bonne scalabilité faible**, particulièreme
 
 - **Scalabilité faible:** PI.java maintient des performances plus constantes lorsque la charge augmente proportionnellement au nombre de threads. Il exploite efficacement les ressources multiprocesseurs, contrairement à Assignment 102, qui peine à équilibrer calcul et communication.
 
+#### Comparaison du trust
 
+### Légende : Graphe des erreurs du Pi
+![grapheErreurFaiblePi](graphique_erreurs_Pi.png)
+
+### Légende : Graphe des erreurs de Assignment 102
+![grapheErreurFaiblePi](graphique_erreurs_Assignment102.png)
+
+##### Analyse de la convergence :
+Les deux algorithmes montrent **la même tendance générale** et possèdent une **fiabilité équivalente**.
+
+- **Tendance générale** : L'erreur diminue systématiquement lorsque le nombre de points augmente.
+- **Zone des erreurs** :
+    - Pour environ **10^3 points**, l'erreur est proche de 10^-2.
+    - À **10^6 points**, l'erreur atteint environ 10^-3.
+    - Vers **10^8 points**, l'erreur descend sous 10^-4.
+- Cette évolution confirme que les deux méthodes suivent une **convergence en 1 / racine(N)**, typique de Monte Carlo : plus on ajoute de points, plus l'erreur se réduit, mais de façon lente.
+
+##### Conclusion  Trust:
+Les deux graphes présentent quasiment **la même convergence** et démontrent la **même fiabilité du code**. La diminution progressive de l'erreur prouve que les deux algorithmes s'améliorent avec l'augmentation du nombre de points.
 #### Conclusion :
-PI.java présente une **meilleure scalabilité forte et faible** que Assignment 102, ce qui en fait une implémentation **plus performante et adaptée** aux architectures parallèles, particulièrement pour des charges croissantes ou un grand nombre de threads.
+PI.java présente une **meilleure scalabilité forte et faible** que Assignment 102, ce qui en fait une implémentation **plus performante et adaptée** aux architectures parallèles, particulièrement pour des charges croissantes ou un grand nombre de threads. Mais cependant les deux codes possédent la même fiabilité 
 
 ## 5. Mise en oeuvre de MonteCarlo en mémoire distribué 
 
@@ -552,23 +621,24 @@ En résumé, il s'agit d'une **programmation distribuée** utilisant des **socke
 
 ### Expérience 1 : calcul de la stabilité forte (Code : MasterSocket : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
 
-| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
-|----------|------------|----------|-------------------|---------------------|-------------------|
-3,141173|-0,000420|0,000294|1600000,000000|1,000000|57,066667
-3,141737|0,000144|0,000423|1600000,000000|2,000000|31,466667
-3,141513|-0,000080|0,000338|1600000,000000|4,000000|19,933333
-3,141787|0,000194|0,000195|1600000,000000|8,000000|11,733333
-3,140975|-0,000618|0,000447|1600000,000000|16,000000|15,000000
-3,141639|0,000047|0,000103|16000000,000000|1,000000|490,466667
-3,141688|0,000096|0,000112|16000000,000000|2,000000|246,866667
-3,141731|0,000138|0,000096|16000000,000000|4,000000|125,866667
-3,141549|-0,000044|0,000079|16000000,000000|8,000000|73,666667
-3,141588|-0,000005|0,000099|16000000,000000|16,000000|47,800000
-3,141594|0,000001|0,000042|160000000,000000|1,000000|4765,333333
-3,141627|0,000034|0,000030|160000000,000000|2,000000|2391,133333
-3,141602|0,000009|0,000028|160000000,000000|4,000000|1206,133333
-3,141588|-0,000005|0,000038|160000000,000000|8,000000|620,400000
-3,141569|-0,000023|0,000031|160000000,000000|16,000000|359,533333
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) | Efficacité (%)|
+|----------|------------|----------|-------------------|---------------------|-------------------| --------------|
+3.141173|-0.00042|0.000294|1600000.0|1.0|57.066667|100.0
+3.141737|0.000144|0.000423|1600000.0|2.0|31.466667|90.67796567078426
+3.141513|-8e-05|0.000338|1600000.0|4.0|19.933333|71.57190796942989
+3.141787|0.000194|0.000195|1600000.0|8.0|11.733333|60.79545662771184
+3.140975|-0.000618|0.000447|1600000.0|16.0|15.0|23.77777791666667
+3.141639|4.7e-05|0.000103|16000000.0|1.0|490.466667|100.0
+3.141688|9.6e-05|0.000112|16000000.0|2.0|246.866667|99.33837422449584
+3.141731|0.000138|9.6e-05|16000000.0|4.0|125.866667|97.41790235058816
+3.141549|-4.4e-05|7.9e-05|16000000.0|8.0|73.666667|83.22398158043445
+3.141588|-5e-06|9.9e-05|16000000.0|16.0|47.8|64.13005583158996
+3.141594|1e-06|4.2e-05|160000000.0|1.0|4765.333333|100.0
+3.141627|3.4e-05|3e-05|160000000.0|2.0|2391.133333|99.64591407835138
+3.141602|9e-06|2.8e-05|160000000.0|4.0|1206.133333|98.77293833566574
+3.141588|-5e-06|3.8e-05|160000000.0|8.0|620.4|96.0133247300129
+3.141569|-2.3e-05|3.1e-05|160000000.0|16.0|359.533333|82.83886526663161
+
 
 #### Observations générales :
 
@@ -619,6 +689,7 @@ Le modèle **MasterWorker** montre une **bonne scalabilité forte** pour des cha
 3,141565|-0,000028|0,000089|40000000,000000|4,000000|300,533333
 3,141599|0,000007|0,000061|80000000,000000|8,000000|313,866667
 3,141609|0,000016|0,000028|160000000,000000|16,000000|369,066667
+![graphique_erreurs_MasterSocket.png](..%2F..%2F..%2FPycharmProjects%2FpythonProject3%2Fgraphique_erreurs_MasterSocket.png)
 
 #### Analyse du graphe (Scalabilité faible - MasterWorker) :
 
@@ -646,10 +717,16 @@ Le modèle MasterWorker est inefficace pour les charges faibles mais performant 
 - **MasterSocket** utilise des **sockets** et une **mémoire distribuée**, ce qui est plus adapté pour gérer des charges lourdes et des communications entre nœuds.
 - **Pi** utilise la **mémoire partagée** avec **ExecutorService** et **Future**, plus efficace pour les petites charges mais limité pour les grandes.
 
-### **Pourquoi MasterSocket est meilleur :**
+#### Comparaison du trust
+##### Légende : Graphe des erreurs de MasterSocket
+![grapheErreurFaiblePi](graphique_erreurs_MasterSocket.png)
+La courbe est legerement meilleur que la courbe de PI mais cela reste la convergence. 
 
-- **Scalabilité forte** : MasterSocket gère mieux les charges lourdes grâce à la mémoire distribuée et aux sockets.
-- **Scalabilité faible** : MasterSocket est aussi plus performant avec de petites charges, car il optimise la communication entre les nœuds.
+
+### Conclusion:
+- **Scalabilité forte** : MasterSocket gère mieux l’augmentation du nombre de threads avec une charge fixe grâce à la mémoire distribuée et aux sockets.
+- **Scalabilité faible** : MasterSocket maintient des performances plus constantes lorsque la charge augmente proportionnellement au nombre de threads.
+- **Trust** : MasterSocket a l'air de mieux calculer pi avec précision.
 
 ## 7.  Mise en place du code Master Worker socket sur plusieurs Machines:
 
@@ -718,4 +795,98 @@ Le modèle MasterWorker est inefficace pour les charges faibles mais performant 
 ### 8. **Avantage de cette approche :**
 L'avantage majeur de cette approche est la possibilité d'optimiser l'utilisation des ressources des machines. Chaque machine dispose d'au moins **8 cœurs logiques**, ce qui permettrait, lors de l'appel de `PI.java` par le `WorkerSocket`, d'ajouter plusieurs workers sur chaque machine pour exploiter pleinement ces cœurs. Cela permettrait d'augmenter le nombre de workers tout en restant sur la même machine, en améliorant ainsi l'efficacité du calcul parallèle sans avoir à ajouter de nouvelles machines.
 
+### 9. Comparaison entre MasterSocket(distribué sur plusieurs machines) vs PI.java
+
+#### Expérience 1 : calcul de la stabilité forte (Code : Pi : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
+
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) | Efficacité (%)|
+|----------|------------|----------|-------------------|---------------------|-------------------| --------------|
+3.142171|0.000578|0.000194|1600000.0|1.0|55.8|100.0
+3.141671|7.8e-05|0.000251|1600000.0|2.0|39.0|71.53846153846153
+3.140898|-0.000695|0.000362|1600000.0|4.0|29.4|47.44897959183673
+3.142037|0.000444|0.000384|1600000.0|8.0|35.6|19.59269662921348
+3.141374|-0.000219|0.000277|1600000.0|16.0|44.6|7.819506726457398
+3.141409|-0.000184|0.000149|16000000.0|1.0|492.4|100.0
+3.141485|-0.000108|0.000112|16000000.0|2.0|262.0|93.96946564885495
+3.141298|-0.000295|9.5e-05|16000000.0|4.0|141.8|86.81241184767276
+3.141437|-0.000156|0.000198|16000000.0|8.0|86.8|70.91013824884791
+3.141162|-0.000431|0.000137|16000000.0|16.0|101.4|30.350098619329387
+3.141628|3.5e-05|1.8e-05|160000000.0|1.0|4833.0|100.0
+3.141636|4.3e-05|2.6e-05|160000000.0|2.0|2479.0|97.47882210568778
+3.14168|8.8e-05|4.2e-05|160000000.0|4.0|1269.0|95.2127659574468
+3.141583|-1e-05|3.1e-05|160000000.0|8.0|679.4|88.92037091551369
+3.14156|-3.2e-05|2.9e-05|160000000.0|16.0|672.0|44.949776785714285
+
+##### Observations générales 
+![grapheScalabiliteFortePiG24](graphe_scalabilite_forte_piG24.png)
+
+On observe une situation similaire à la courbe de scalabilité de Pi en Java lorsqu'il est exécuté sur mon ordinateur personnel. Le speed-up diminue ou se stabilise à partir de 16 processeurs par rapport à 8, ce qui peut être expliqué par l'augmentation de la concurrence pour les ressources et la commutation de contexte. En dépassant le nombre de cœurs physiques, les threads doivent partager les ressources matérielles (unités de calcul, mémoire, caches), ce qui entraîne une surcharge. La commutation de contexte se produit lorsque le système d'exploitation interrompt l'exécution d'un thread pour en exécuter un autre, nécessitant de sauvegarder et restaurer l'état du thread. Cela génère un overhead supplémentaire, car chaque changement de contexte prend du temps, réduisant ainsi l'efficacité de l'exécution parallèle en augmentant la latence.
+
+#### Expérience 2 : calcul de la stabilité faible (Code : Pi : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
+|----------|------------|----------|-------------------|---------------------|-------------------|
+3,143128|0,001535|0,000772|100000,000000|1,000000|8,400000
+3,139724|-0,001869|0,001047|200000,000000|2,000000|17,000000
+3,142178|0,000585|0,000581|400000,000000|4,000000|24,400000
+3,141625|0,000032|0,000673|800000,000000|8,000000|33,600000
+3,139834|-0,001759|0,000572|1600000,000000|16,000000|47,800000
+3,141852|0,000259|0,000395|1000000,000000|1,000000|38,800000
+3,141716|0,000123|0,000210|2000000,000000|2,000000|45,800000
+3,141363|-0,000230|0,000193|4000000,000000|4,000000|48,000000
+3,141702|0,000109|0,000127|8000000,000000|8,000000|56,000000
+3,141615|0,000022|0,000075|16000000,000000|16,000000|107,000000
+3,141646|0,000053|0,000078|10000000,000000|1,000000|312,400000
+3,141616|0,000023|0,000051|20000000,000000|2,000000|324,400000
+3,141570|-0,000022|0,000109|40000000,000000|4,000000|332,200000
+3,141667|0,000074|0,000046|80000000,000000|8,000000|356,200000
+3,141541|-0,000052|0,000036|160000000,000000|16,000000|656,200000
+##### Observations générales
+![grapheScalabiliteFaiblePiG24](graphe_scalabilite_faible_piG24.png)
+
+On observe le même phénomène de la scalabilité forte  pour la scalabilité faible sur mon ordinateur personnel. Le speed-up  diminue au-delà de 8 processeurs, en raison de l'augmentation de la concurrence pour les ressources et de la commutation de contexte. Les threads partagent les ressources matérielles, ce qui crée un overhead supplémentaire, réduisant l'efficacité de l'exécution parallèle.
+##### Trust de Pi Java en G24
+### Légende : Graphe des erreurs du Pi dans la salle G24
+![grapheScalabiliteFaiblePi](graphique_erreurs_PIG24.png)
+C'est quasiment la même convergence que PI fait sur mon ordinateur personnel. Cela prouve que la fiabilité du code ne dépend pas du nombre de coeur et de ram (bref du hardware).
+
+#### Expérience 3 : calcul de la stabilité forte (Code : MasterSocket : Nombre de Points : 10^6 *192  Nombre de processeurs : 1,4,8,12,16,24,32,48)
+|Ntot|AvailableProcessors|TimeDuration (ms)| Efficacité (%)|
+|----------|------------|----------| -------------------|
+192000000|1|5873|100.0
+192000000|4|1506|97.4933598937583
+192000000|8|756|97.10648148148148
+192000000|12|508|96.34186351706036
+192000000|16|385|95.3409090909091
+192000000|24|267|91.6510611735331
+192000000|32|206|89.09283980582524
+192000000|48|133|91.99561403508773
+
+##### Observations générales
+![grapheScalabiliteForteMasterSocket](MasterSocketG24_scalabilite_forte.png)
+
+On est sur une excellente scalabilité forte, qui commence juste à perdre du speed-up au bout de 32 processeurs, en raison de la surcharge de communication. Cela illustre bien la définition de la scalabilité forte, où le programme maintient une performance croissante avec l'augmentation du nombre de processeurs, mais atteint un point où les limites liées à la gestion de la communication et à l'overhead empêchent une amélioration proportionnelle continue.
+
+#### Expérience 4 : calcul de la stabilité faible (Code : MasterSocket : Nombre de Points : 10^6 *192  Nombre de processeurs : 1,4,8,12,16,24,32,48)
+
+|Ntot|AvailableProcessors|TimeDuration (ms)|
+|----------|------------|----------|
+|4000000	|1	|129
+|16000000	|	4|	140
+|32000000	|	8|	143
+|48000000	|	12|	136
+|64000000	|	16|	134
+|96000000	|	24|	139
+|128000000	|	32|	140
+|192000000	|	48|	141
+
+##### Observations générales
+![grapheScalabiliteFaibleMasterSocket](MasterSocketG24_scalabilite_faible.png)
+
+Le graphe montre une bonne scalabilité faible.
+
+Pour 4 et 8 processeurs :
+Le speed-up est légèrement inférieur à 1, principalement parce que dans le cas de 4 processeurs, une seule machine travaille, ce qui explique la chute de performance observée, comme c'est le cas avec Pi.java (utilisé par WorkerSocket pour calculer MonteCarlo). Lorsque deux workers sont impliqués, la surcharge de communication nécessaire pour répartir les tâches semble également affecter les performances, entraînant une diminution de l'efficacité globale.
+pour 8 et 32 processeurs : Le speed-up reste stable et proche de 1, ce qui démontre que le code parvient à maintenir des performances raisonnables malgré l'augmentation du nombre de workers.
+Au dela de 32: Le code recommence à baisser du à la surcharge de communication entre les workers et les masters pour la charge de travail demandé.
+Conclusion : Le code présente une scalabilité faible bonne, ce qui signifie que les performances restent relativement stables malgré l'augmentation du nombre de threads. Cela indique que le système est capable de gérer efficacement la charge de travail croissante.
 

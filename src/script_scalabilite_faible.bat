@@ -1,5 +1,5 @@
 # Configuration des différents nombres de points à tester
-$POINTS_LIST = @(100000, 1000000, 10000000)
+$POINTS_LIST = @(1000000, 10000000, 100000000)
 
 # Configurations des threads à tester
 $THREAD_COUNTS = 1, 2, 4, 8, 16
@@ -8,7 +8,7 @@ $THREAD_COUNTS = 1, 2, 4, 8, 16
 $REPEAT_COUNT = 5
 
 # Nom des fichiers CSV générés par le programme Java
-$OUTPUT_CSV_1 = "pi_result.csv"
+$OUTPUT_CSV_1 = "pi_result_faible_test.csv"
 $OUTPUT_CSV_2 = "assigment102.csv"
 
 Write-Host "Running calculations. Results will be saved in $OUTPUT_CSV_1 and $OUTPUT_CSV_2."
@@ -26,11 +26,11 @@ foreach ($TOTAL_POINTS in $POINTS_LIST) {
         for ($i = 1; $i -le $REPEAT_COUNT; $i++) {
             Write-Host "Running with $t threads (Iteration $i) for $OUTPUT_CSV_1..."
             # Exécution de la commande Java avec le programme Pi
-            #java Pi $TOTAL_POINTS $t $OUTPUT_CSV_1
+            java Pi $TOTAL_POINTS $t $OUTPUT_CSV_1
 
             Write-Host "Running with $t threads (Iteration $i) for $OUTPUT_CSV_2..."
             # Exécution de la commande Java avec le programme Assignment102
-            java Assignment102  $pointsParTravailleur $t $OUTPUT_CSV_2
+            #java Assignment102  $pointsParTravailleur $t $OUTPUT_CSV_2
         }
     }
 }
