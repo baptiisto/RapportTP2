@@ -304,7 +304,7 @@ Nous comparerons l’efficacité des implémentations Pi.java et Assignment 102 
 
 **Scalabilité faible** : Elle mesure la capacité d’un programme à maintenir des performances constantes lorsque le nombre total de points augmente proportionnellement au nombre de threads. Cela reflète l’efficacité de la gestion des charges de travail croissantes.
 
-Pour les tests, nous choisirons un total de points de 10^6, 10^7 et 10^8 * 1,6. Cette sélection permet d’analyser l’impact de la charge de travail sur les performances tout en garantissant une granularité suffisante pour observer les différences. Les valeurs inférieures (10 à 10^5) ne seront pas analysées, car les temps d’exécution sont presque équivalents et peu significatifs. De plus, multiplier par 16 permet de tester la scalabilité avec différents nombres de threads : 1, 2, 4, 8 et 16.
+Pour les tests, nous choisirons un total de points de 10^6, 10^7 et 10^8 * 16 (On note qu'on rajoute 10^5 dans la séléctions de points car Assignment102 utilise trop de mémoires pour les points en 10^8). Cette sélection permet d’analyser l’impact de la charge de travail sur les performances tout en garantissant une granularité suffisante pour observer les différences. Les valeurs inférieures (10 à 10^5) ne seront pas analysées, car les temps d’exécution sont presque équivalents et peu significatifs. De plus, multiplier par 16 permet de tester la scalabilité avec différents nombres de threads : 1, 2, 4, 8 et 16.
 
 Pour le calcul de la scalabilité, nous représentons en abscisse (axe horizontal) le nombre de processeurs/threads utilisés et en ordonnée (axe vertical) le **speedup**.
 
@@ -397,8 +397,8 @@ L'objectif ici est de vérifier comment l'erreur évolue à mesure que le nombre
 Cela revient aussi à calculer le trust/la fiabilité du code (dans la section satisfaction de Quality in Use) des algorithmes.
 Nous analyserons le trust dans les expériences reliées à la scalabilité faible car ces tests comportent une plus grande variété de points.
 
-### Expérience 1 : calcul de la stabilité forte (Code : assigment102 : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
-
+### Expérience 1 : calcul de la stabilité forte (Code : assigment102 : Nombre de Points : 10^5,10^6,10^7 *16 Nombre de processeurs : 1,2,4,8,16)
+*8
 
 |PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
 |--|----|----|----|----|----|---|
@@ -435,7 +435,7 @@ Le goulet d'étranglement causé par un `atomic integer` force les threads à at
 Assignment 102 montre une scalabilité fortement limitée, voire contre-productive, mettant en évidence un problème majeur de synchronisation et de gestion des tâches parallèles.
 
 
-### Expérience 2 : calcul de la stabilité forte (Code : Pi : Nombre de Points : 10^6,10^7,10^8*1,6  Nombre de processeurs : 1,2,4,8,16)
+### Expérience 2 : calcul de la stabilité forte (Code : Pi : Nombre de Points : 10^5,10^6,10^7,10^8 *16  Nombre de processeurs : 1,2,4,8,16)
 PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
 |---|---|-----|-----|----|----|---|
 3.1413|-0.000293|0.000334|1600000.0|1.0|46.0|100.0
@@ -467,9 +467,9 @@ PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
   Le Speed-up augmente avec le nombre de processeurs, ce qui est attendu en scalabilité forte. Cependant, un écart se creuse entre le Speed-up observé et le Speed-up idéal lorsque le nombre de processeurs devient important, surtout pour les petites tailles de charge (`Ntot`).
 
 - **Influence de la taille de la charge (`Ntot`)** :
-    - Pour des valeurs faibles de `Ntot` (par exemple, (1.6 x 10^6)), le Speed-up plafonne rapidement, ce qui indique une surcharge de communication ou un déséquilibre entre calcul et synchronisation.
-    - Avec des tailles moyennes de `Ntot` (1.6 x10^7), le Speed-up s'améliore mais reste limité à cause des coûts de synchronisation.
-    - Pour de grandes tailles de charge (1.6 x 10^8), le Speed-up se rapproche du comportement idéal, surtout avec un petit nombre de processeurs, ce qui montre une bonne scalabilité dans ce cas.
+    - Pour des valeurs faibles de `Ntot` (par exemple, (16 x 10^6)), le Speed-up plafonne rapidement, ce qui indique une surcharge de communication ou un déséquilibre entre calcul et synchronisation.
+    - Avec des tailles moyennes de `Ntot` (16 x10^7), le Speed-up s'améliore mais reste limité à cause des coûts de synchronisation.
+    - Pour de grandes tailles de charge (16 x 10^8), le Speed-up se rapproche du comportement idéal, surtout avec un petit nombre de processeurs, ce qui montre une bonne scalabilité dans ce cas.
 
 - **Limites de scalabilité** :  
   Lorsque le nombre de processeurs devient élevé (par exemple, (2^4 = 16)), les courbes montrent un ralentissement ou un plafonnement du Speed-up, en particulier pour des charges faibles, où les frais de communication deviennent dominants.
@@ -478,24 +478,25 @@ PI|Difference|Error|Ntot|AvailableProcessors|TimeDuration(ms)|Efficacité (%)
 
 Le code PI en Java présente une **bonne scalabilité forte**, particulièrement pour des charges importantes (\(Ntot\) élevé). Le Speed-up atteint des valeurs proches du comportement idéal.
 
-### Expérience 3 : calcul de la stabilité faible (Code : Assigment102 : Nombre de Points : 10^6,10^7,10^8*1,6  Nombre de processeurs : 1,2,4,8,16)
+### Expérience 3 : calcul de la stabilité faible (Code : Assigment102 : Nombre de Points :  10^5,10^6,10^7 *16   Nombre de processeurs : 1,2,4,8,16)
 | PI   | Difference | Error | Ntot      | AvailableProcessors | TimeDuration(ms) |
 |------|------------|-------|-----------|---------------------|------------------|
-3,139704|-0,001889|0,001133|100000,000000|1,000000|20,400000
-3,142080|0,000487|0,001075|200000,000000|2,000000|49,800000
-3,140820|-0,000773|0,000718|400000,000000|4,000000|97,200000
-3,140646|-0,000947|0,000573|800000,000000|8,000000|252,000000
-3,141150|-0,000443|0,000334|1600000,000000|16,000000|588,800000
-3,140799|-0,000794|0,000410|1000000,000000|1,000000|87,000000
-3,142627|0,001034|0,000478|2000000,000000|2,000000|337,400000
-3,141922|0,000329|0,000307|4000000,000000|4,000000|723,800000
-3,141514|-0,000079|0,000149|8000000,000000|8,000000|1848,000000
-3,141333|-0,000259|0,000151|16000000,000000|16,000000|4927,200000
-3,141998|0,000406|0,000138|10000000,000000|1,000000|764,600000
-3,141504|-0,000089|0,000075|20000000,000000|2,000000|3135,600000
-3,141547|-0,000046|0,000048|40000000,000000|4,000000|7026,600000
-3,141438|-0,000155|0,000050|80000000,000000|8,000000|17643,400000
-3,141620|0,000028|0,000025|160000000,000000|16,000000|48216,800000
+3.139704|-0.001889|0.001133|100000.0|1.0|20.4|100.0
+3.14208|0.000487|0.001075|200000.0|2.0|49.8|40.963855421686745
+3.14082|-0.000773|0.000718|400000.0|4.0|97.2|20.98765432098765
+3.140646|-0.000947|0.000573|800000.0|8.0|252.0|8.095238095238095
+3.14115|-0.000443|0.000334|1600000.0|16.0|588.8|3.4646739130434785
+3.140799|-0.000794|0.00041|1000000.0|1.0|87.0|100.0
+3.142627|0.001034|0.000478|2000000.0|2.0|337.4|25.78541790160048
+3.141922|0.000329|0.000307|4000000.0|4.0|723.8|12.019894998618403
+3.141514|-7.9e-05|0.000149|8000000.0|8.0|1848.0|4.707792207792208
+3.141333|-0.000259|0.000151|16000000.0|16.0|4927.2|1.7657087189478813
+3.141998|0.000406|0.000138|10000000.0|1.0|764.6|100.0
+3.141504|-8.9e-05|7.5e-05|20000000.0|2.0|3135.6|24.384487817323638
+3.141547|-4.6e-05|4.8e-05|40000000.0|4.0|7026.6|10.881507414681353
+3.141438|-0.000155|5e-05|80000000.0|8.0|17643.4|4.333631839668091
+3.14162|2.8e-05|2.5e-05|160000000.0|16.0|48216.8|1.5857543428846377
+
 
 
 ### Observations du graphe
@@ -519,40 +520,40 @@ La mauvaise scalabilité est attribuée à un **déséquilibre entre les coûts 
 #### Conclusion
 L'**assignment 102** illustre une inefficacité critique en scalabilité faible.
 
-### Expérience 4 : calcul de la stabilité faible (Code : Pi : Nombre de Points : 10^6,10^7,10^8*1,6  Nombre de processeurs : 1,2,4,8,16)
+### Expérience 4 : calcul de la stabilité faible (Code : Pi : Nombre de Points :   10^5,10^6,10^7,10^8 *16   Nombre de processeurs : 1,2,4,8,16)
 | PI   | Difference | Error | Ntot       | AvailableProcessors | TimeDuration(ms) |
 |------|------------|-------|------------|---------------------|------------------|
-3,138944|-0,002649|0,001302|100000,000000|1,000000|7,600000
-3,139420|-0,002173|0,001274|200000,000000|2,000000|14,000000
-3,142838|0,001245|0,000414|400000,000000|4,000000|23,000000
-3,143275|0,001682|0,000755|800000,000000|8,000000|35,400000
-3,142543|0,000950|0,000397|1600000,000000|16,000000|54,600000
-3,141418|-0,000175|0,000588|1000000,000000|1,000000|30,200000
-3,141880|0,000287|0,000146|2000000,000000|2,000000|38,000000
-3,141517|-0,000076|0,000289|4000000,000000|4,000000|44,000000
-3,141805|0,000212|0,000143|8000000,000000|8,000000|53,200000
-3,141448|-0,000145|0,000132|16000000,000000|16,000000|71,600000
-3,141364|-0,000228|0,000167|10000000,000000|1,000000|268,400000
-3,141510|-0,000082|0,000087|20000000,000000|2,000000|275,600000
-3,141520|-0,000073|0,000086|40000000,000000|4,000000|298,200000
-3,141522|-0,000070|0,000044|80000000,000000|8,000000|305,400000
-3,141538|-0,000055|0,000035|160000000,000000|16,000000|354,200000
-3,141600|0,000007|0,000032|100000000,000000|1,000000|2782,800000
-3,141579|-0,000014|0,000029|160000000,000000|1,600000|2807,400000
-3,141591|-0,000002|0,000022|320000000,000000|3,200000|2852,200000
-3,141562|-0,000031|0,000019|640000000,000000|6,400000|2904,600000
-3,141593|-0,000000|0,000013|1280000000,000000|12,800000|3077,400000
-3,141621|0,000028|0,000009|1600000000,000000|16,000000|3221,500000
+3.138944|-0.002649|0.001302|100000.0|1.0|7.6|100.0
+3.13942|-0.002173|0.001274|200000.0|2.0|14.0|54.285714285714285
+3.142838|0.001245|0.000414|400000.0|4.0|23.0|33.04347826086956
+3.143275|0.001682|0.000755|800000.0|8.0|35.4|21.468926553672315
+3.142543|0.00095|0.000397|1600000.0|16.0|54.6|13.919413919413918
+3.141418|-0.000175|0.000588|1000000.0|1.0|30.2|100.0
+3.14188|0.000287|0.000146|2000000.0|2.0|38.0|79.47368421052632
+3.141517|-7.6e-05|0.000289|4000000.0|4.0|44.0|68.63636363636364
+3.141805|0.000212|0.000143|8000000.0|8.0|53.2|56.76691729323308
+3.141448|-0.000145|0.000132|16000000.0|16.0|71.6|42.17877094972067
+3.141364|-0.000228|0.000167|10000000.0|1.0|268.4|100.0
+3.14151|-8.2e-05|8.7e-05|20000000.0|2.0|275.6|97.38751814223511
+3.14152|-7.3e-05|8.6e-05|40000000.0|4.0|298.2|90.00670690811535
+3.141522|-7e-05|4.4e-05|80000000.0|8.0|305.4|87.88474132285528
+3.141538|-5.5e-05|3.5e-05|160000000.0|16.0|354.2|75.77639751552795
+3.1416|7e-06|3.2e-05|100000000.0|1.0|2782.8|100.0
+3.141579|-1.4e-05|2.9e-05|160000000.0|1.6|2807.4|99.12374438982688
+3.141591|-2e-06|2.2e-05|320000000.0|3.2|2852.2|97.56679054764744
+3.141562|-3.1e-05|1.9e-05|640000000.0|6.4|2904.6|95.80665151828136
+3.141593|-0.0|1.3e-05|1280000000.0|12.8|3077.4|90.42698381750829
+3.141621|2.8e-05|9e-06|1600000000.0|16.0|3221.5|86.38212013037405
 
 ### Observations générales 
 
 ![grapheScalabiliteFaiblePi](graphe_scalabilite_faible_pi.png)
 
 1. **Bonne Scalabilité pour les Charges Importantes :**
-    - Pour \(Ntot/Processors = 10^7\), le graphe montre que le **Speed-up reste proche de l’idéal** (bien qu'en dessous), ce qui indique que le ratio **calcul/communication** est favorable. Cela signifie que les **workers effectuent une quantité importante de calculs**, ce qui réduit l’impact des communications avec le master.
+    - Pour \(Ntot/Processors = 10^8\), le graphe montre que le **Speed-up reste proche de l’idéal** (bien qu'en dessous), ce qui indique que le ratio **calcul/communication** est favorable. Cela signifie que les **workers effectuent une quantité importante de calculs**, ce qui réduit l’impact des communications avec le master.
 
 2. **Diminution pour les Petites Charges :**
-    - Avec \(Ntot/Processors = 10^5\), le **Speed-up diminue considérablement**. Cela s’explique par un **ratio calcul/communication faible**, où le temps de calcul devient négligeable par rapport aux coûts de synchronisation et d’échanges de données entre le master et les threads.
+    - Avec \(Ntot/Processors = 10^5 et 10^6\), le **Speed-up diminue considérablement**. Cela s’explique par un **ratio calcul/communication faible**, où le temps de calcul devient négligeable par rapport aux coûts de synchronisation et d’échanges de données entre le master et les threads.
 
 3. **Observation par rapport au Speed-up idéal :**
     - Le **Speed-up réel diverge progressivement du Speed-up idéal** à mesure que le nombre de processeurs augmente. Toutefois, pour les **grosses charges**, cette divergence est limitée, ce qui indique une **scalabilité bonne **.
@@ -566,8 +567,8 @@ Cependant, pour les **petites charges**, les communications entre threads surpas
 
 #### Conclusion
 Le code **PI.java** démontre une **bonne scalabilité faible**, particulièrement pour des charges importantes :
-- **Pour les grosses charges (\(Ntot/Processors = 10^7\))** : Le **ratio calcul/communication** élevé compense largement les coûts de synchronisation.
-- **Pour les petites charges (\(Ntot/Processors = 10^5\))** : Le **Speed-up décroît**, car les communications dominent, rendant la parallélisation moins efficace.
+- **Pour les grosses charges (\(Ntot/Processors = 10^8\))** : Le **ratio calcul/communication** élevé compense largement les coûts de synchronisation.
+- **Pour les petites charges (\(Ntot/Processors = 10^5 et 10^6\))** : Le **Speed-up décroît**, car les communications dominent, rendant la parallélisation moins efficace.
 
 
 ### Comparaison Finale entre PI.java et Assigment102
@@ -630,7 +631,7 @@ En résumé, il s'agit d'une **programmation distribuée** utilisant des **socke
 
 ## 6. Performance MasterWorker Socket
 
-### Expérience 1 : calcul de la stabilité forte (Code : MasterSocket : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
+### Expérience 1 : calcul de la stabilité forte (Code : MasterSocket : Nombre de Points :  10^5,10^6,10^7,10^8 *16  Nombre de processeurs : 1,2,4,8,16)
 
 | PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) | Efficacité (%)|
 |----------|------------|----------|-------------------|---------------------|-------------------| --------------|
@@ -665,13 +666,15 @@ En résumé, il s'agit d'une **programmation distribuée** utilisant des **socke
     - Plus N_{tot} est élevé, plus le Speed-up observé se rapproche du Speed-up idéal.
 
 2. **Influence de la taille de la charge (\(N_{tot}\)) :**
-    - Pour N_tot = 1.6 * 10^6) (courbe bleue) :
+    - Pour N_tot = 16 * 10^5) (courbe bleue) :
         - Le Speed-up plafonne rapidement et diminue après 8 processeurs.
         - Cela indique une surcharge de communication et une charge de calcul insuffisante par processeur.
-    - Pour N_tot = 1.6 * 10^7) (courbe orange) :
+    - Pour N_tot = 16 * 10^6) (courbe orange) :
         - Le Speed-up est meilleur, mais reste en dessous de l'idéal, avec un ralentissement visible à partir de 8 processeurs.
-    - Pour N_tot = 1.6*times 10^8) (courbe verte) :
+    - Pour N_tot = 16 10^7) (courbe verte) :
         - Le Speed-up se rapproche du comportement idéal jusqu'à 16 processeurs, montrant une bonne scalabilité pour cette taille de charge.
+    - Pour N_tot = 16* 10^8) (courbe rouge) :
+        - Meme chose que le précédent mais en mieux.
 
 3. **Écart avec le Speed-up idéal :**
     - L'écart entre le Speed-up observé et idéal augmente avec un petit \(N_{tot}\), ce qui montre que les frais généraux de communication deviennent dominants pour des charges faibles.
@@ -681,35 +684,35 @@ En résumé, il s'agit d'une **programmation distribuée** utilisant des **socke
     - Le modèle MasterWorker docket implique des échanges constants entre le master et les workers via des sockets. Pour des petites charges (N_tot = 1.6 * 10^6)), ces frais de communication surpassent le gain de parallélisme.
 
 - **Déséquilibre calcul/communication :**
-    - Avec des charges plus importantes (N_tot = 1.6 * 10^8)), la part de communication devient négligeable face au temps de calcul, ce qui explique la meilleure scalabilité.
+    - Avec des charges plus importantes (N_tot = 16 * 10^8)), la part de communication devient négligeable face au temps de calcul, ce qui explique la meilleure scalabilité.
 
 #### Conclusion :
 Le modèle **MasterWorker** montre une **bonne scalabilité forte** pour des charges élevées.
 
-### Expérience 2 : calcul de la stabilité faible (Code : MasterSocket : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
+### Expérience 2 : calcul de la stabilité faible (Code : MasterSocket : Nombre de Points :  10^5,10^6,10^7,10^8 *16  Nombre de processeurs : 1,2,4,8,16)
 
-| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) |
-|----------|------------|----------|-------------------|---------------------|-------------------|
-3,142757| 0,001164   |0,001715|100000,000000|1,000000|7,000000
-3,139159| -0,002434  |0,001148|200000,000000|2,000000|8,666667
-3,141306| -0,000287  |0,000732|400000,000000|4,000000|9,133333
-3,142230| 0,000637   |0,000441|800000,000000|8,000000|11,466667
-3,142010| 0,000417   |0,000296|1600000,000000|16,000000|14,800000
-3,141658| 0,000065   |0,000341|1000000,000000|1,000000|33,466667
-3,141141| -0,000452  |0,000392|2000000,000000|2,000000|36,000000
-3,141809| 0,000216   |0,000183|4000000,000000|4,000000|38,666667
-3,141421| -0,000172  |0,000171|8000000,000000|8,000000|40,866667
-3,141600| 0,000007   |0,000094|16000000,000000|16,000000|47,666667
-3,141617| 0,000024   |0,000128|10000000,000000|1,000000|290,266667
-3,141607| 0,000015   |0,000088|20000000,000000|2,000000|297,800000
-3,141565| -0,000028  |0,000089|40000000,000000|4,000000|300,533333
-3,141599| 0,000007   |0,000061|80000000,000000|8,000000|313,866667
-3,141609| 0,000016   |0,000028|160000000,000000|16,000000|369,066667
-3,141592| 0,000001   |0,000059|100000000,000000|1,000000|2882,200000
-3,141532| -0,000061  |0,000045|200000000,000000|2,000000|2892,500000
-3,141590| -0,000002  |0,000014|400000000,000000|4,000000|2942,600000
-3,141559| -0,000034  |0,000014|800000000,000000|8,000000|3009,700000
-3,141622| 0,000029   |0,000013|1600000000,000000|16,000000|3343,300000
+| PI       | Difference | Error    | Ntot              | AvailableProcessors | TimeDuration (ms) | Efficacité (%)
+|----------|------------|----------|-------------------|---------------------|-------------------| --------------|
+3.142757|0.001164|0.001715|100000.0|1.0|7.0|100.0
+3.139159|-0.002434|0.001148|200000.0|2.0|8.666667|80.76922766272202
+3.141306|-0.000287|0.000732|400000.0|4.0|9.133333|76.64233856358899
+3.14223|0.000637|0.000441|800000.0|8.0|11.466667|61.046509853299135
+3.14201|0.000417|0.000296|1600000.0|16.0|14.8|47.2972972972973
+3.141658|6.5e-05|0.000341|1000000.0|1.0|33.466667|100.0
+3.141141|-0.000452|0.000392|2000000.0|2.0|36.0|92.9629638888889
+3.141809|0.000216|0.000183|4000000.0|4.0|38.666667|86.55172425386446
+3.141421|-0.000172|0.000171|8000000.0|8.0|40.866667|81.89233293725667
+3.1416|7e-06|9.4e-05|16000000.0|16.0|47.666667|70.20979041811336
+3.141617|2.4e-05|0.000128|10000000.0|1.0|290.266667|100.0
+3.141607|1.5e-05|8.8e-05|20000000.0|2.0|297.8|97.47033814640697
+3.141565|-2.8e-05|8.9e-05|40000000.0|4.0|300.533333|96.58385114971588
+3.141599|7e-06|6.1e-05|80000000.0|8.0|313.866667|92.4808836103644
+3.141609|1.6e-05|2.8e-05|160000000.0|16.0|369.066667|78.64884394991975
+3.141592|1e-06|5.9e-05|100000000.0|1.0|2882.2|100.0
+3.141532|-6.1e-05|4.5e-05|200000000.0|2.0|2892.5|99.6439066551426
+3.14159|-2e-06|1.4e-05|400000000.0|4.0|2942.6|97.9473934615646
+3.141559|-3.4e-05|1.4e-05|800000000.0|8.0|3009.7|95.76369737847627
+3.141622|2.9e-05|1.3e-05|1600000000.0|16.0|3343.3|86.2082373702629
 
 ![graphique_erreurs_MasterSocket.png](..%2F..%2F..%2FPycharmProjects%2FpythonProject3%2Fgraphique_erreurs_MasterSocket.png)
 
@@ -726,6 +729,9 @@ Le modèle **MasterWorker** montre une **bonne scalabilité forte** pour des cha
 
 3. **Charge intermédiaire (\(Ntot/Processors = 10^6\))** :
     - Résultat mitigé, entre les deux cas.
+
+4. **Charges très élevées (\(Ntot/Processors = 10^8\))** :
+    -  très bonne performance : le Speed-up se rapproche encore plus du speed up idéal, car le temps de calcul compense les coûts de communication.
 
 #### Causes principales :
 - **Latence des sockets** : Dominante pour les petites charges.
@@ -774,7 +780,7 @@ La courbe est legerement meilleur que la courbe de PI mais cela reste la converg
   static final String[] tab_ips = {
       "192.168.24.154", "192.168.24.150", "192.168.0.103", "192.168.0.104",
       "192.168.0.105", "192.168.0.106", "192.168.0.107", "192.168.0.108"
-  };
+  }|
   static final int[] tab_ports = {25545, 25546, 25547, 25548, 25549, 25550, 25551, 25552};
   ```
 - Le **master** se connecte à chaque worker en utilisant à la fois l'adresse IP et le port correspondant :
@@ -818,6 +824,9 @@ La courbe est legerement meilleur que la courbe de PI mais cela reste la converg
 L'avantage majeur de cette approche est la possibilité d'optimiser l'utilisation des ressources des machines. Chaque machine dispose d'au moins **8 cœurs logiques**, ce qui permettrait, lors de l'appel de `PI.java` par le `WorkerSocket`, d'ajouter plusieurs workers sur chaque machine pour exploiter pleinement ces cœurs. Cela permettrait d'augmenter le nombre de workers tout en restant sur la même machine, en améliorant ainsi l'efficacité du calcul parallèle sans avoir à ajouter de nouvelles machines.
 
 ### 9. Comparaison entre MasterSocket(distribué sur plusieurs machines) vs PI.java
+
+#### Architecture Choisie
+Pour faire ces tests, Nous changeons d'architecture et nous otons pour une architecture possédant 8 coeurs physiques et 8 coeurs logiques
 
 #### Expérience 1 : calcul de la stabilité forte (Code : Pi : Nombre de Points : 10^6,10^7,10*8 *1,6  Nombre de processeurs : 1,2,4,8,16)
 
@@ -886,7 +895,7 @@ C'est quasiment la même convergence que PI fait sur mon ordinateur personnel. C
 ##### Observations générales
 ![grapheScalabiliteForteMasterSocket](MasterSocketG24_scalabilite_forte.png)
 
-On est sur une excellente scalabilité forte, qui commence juste à perdre du speed-up au bout de 32 processeurs, en raison de la surcharge de communication. Cela illustre bien la définition de la scalabilité forte, où le programme maintient une performance croissante avec l'augmentation du nombre de processeurs, mais atteint un point où les limites liées à la gestion de la communication et à l'overhead empêchent une amélioration proportionnelle continue.
+On est sur une excellente scalabilité forte, qui commence juste à perdre du speed-up au bout de 32 processeurs, en raison de la surcharge de communication. Cela illustre bien la définition de la scalabilité forte, où le programme maintient une performance croissante avec l'augmentation du nombre de processeurs, mais atteint un point où les limites liées à la gestion de la communication et à l'overhead empêchent une amélioration proportionnelle continue (en gros le speed up idéale).
 
 #### Expérience 4 : calcul de la stabilité faible (Code : MasterSocket : Nombre de Points : 10^6 *192  Nombre de processeurs : 1,4,8,12,16,24,32,48)
 
@@ -912,3 +921,9 @@ pour 8 et 32 processeurs : Le speed-up reste stable et proche de 1, ce qui démo
 Au dela de 32: Le code recommence à baisser du à la surcharge de communication entre les workers et les masters pour la charge de travail demandé.
 Conclusion : Le code présente une scalabilité faible bonne, ce qui signifie que les performances restent relativement stables malgré l'augmentation du nombre de threads. Cela indique que le système est capable de gérer efficacement la charge de travail croissante.
 
+###### Conclusion : Comparaison entre MasterSocket et Pi.java
+En scalabilité forte, MasterSocket (programmation multiniveau) surpasse Pi.java (programmation à mémoire partagée) en maintenant de bonnes performances jusqu’à 32 processeurs, avant d’être limitée par la surcharge de communication. En revanche, Pi.java atteint ses limites dès 8 processeurs à cause de la concurrence pour les ressources et de la commutation de contexte.
+
+En scalabilité faible, MasterSocket reste stable avec un speed-up proche de l’idéal jusqu’à 32 processeurs, tandis que Pi.java présente une baisse plus marquée due aux contraintes des ressources partagées.
+
+En résumé, MasterSocket, grâce à la programmation multiniveau, gère mieux l’augmentation des ressources en répartissant les tâches sur plusieurs machines, contrairement à Pi.java, limité par l’architecture mémoire partagée. Cela est attendu, car la programmation multiniveau est mieux adaptée pour traiter des charges de calcul importantes en tirant parti d’une architecture distribuée.
