@@ -236,7 +236,7 @@ L'implémentation correspond au pseudo-code d'itération parallèle avec les ada
 2. **Gestion des threads** : Le découplage des tâches est assuré par ExecutorService, permettant une gestion optimale des tâches en parallèle.
 
 ###  a. Analyse de Pi.java
-![grapheScalabiliteForteAssi](uml_Pi.png)
+![grapheScalabiliteForteAssi](umlPi.png)
 
 #### **1. Classes principales**
 
