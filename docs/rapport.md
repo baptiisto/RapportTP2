@@ -174,7 +174,7 @@ Le master calcule π en utilisant la formule π ≈ 4 * ncible_total / n_tot.
 
 ## 3.Mise en oeuvre sur Machine à mémoire partagé 
 ###  a. Analyse de Assigment102
-
+![grapheScalabiliteForteAssi](uml_assigment102.png)
 
 #### **1. Classes principales**
 - **`Assignment102` :** Point d’entrée, initialise le programme et soumet les tâches Monte Carlo au pool de threads.
@@ -236,7 +236,7 @@ L'implémentation correspond au pseudo-code d'itération parallèle avec les ada
 2. **Gestion des threads** : Le découplage des tâches est assuré par ExecutorService, permettant une gestion optimale des tâches en parallèle.
 
 ###  a. Analyse de Pi.java
-
+![grapheScalabiliteForteAssi](uml_Pi.png)
 
 #### **1. Classes principales**
 
